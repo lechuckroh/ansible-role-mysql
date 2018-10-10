@@ -1,0 +1,54 @@
+---
+- name: Create remote root user
+  mysql_user:
+    name: root
+    password: "{{ mysql_root_password }}"
+    host: "{{ mysql_root_remote_host }}"
+    priv: "*.*:ALL,GRANT"
+    state: "{{ 'present' if mysql_root_remote else 'absent' }}"
+  notify: restart mysql
+
+- name: Verify root password
+  shell: "mysqladmin -uroot -p{{ mysql_root_password }} status"
+  changed_when: false
+  failed_when: false
+  no_log: true
+  register: verify_root_password
+
+- name: Change root password
+  shell: |
+    systemctl stop {{ mysql_service }}
+    systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+    systemctl start {{ mysql_service }}
+    mysql -uroot -e"UPDATE mysql.user SET password=PASSWORD('{{ mysql_root_password }}') WHERE user='root'; FLUSH PRIVILEGES;"
+    systemctl stop {{ mysql_service }}
+    systemctl unset-environment MYSQLD_OPTS
+    systemctl start {{ mysql_service }}
+  no_log: true
+  when: verify_root_password.rc != 0
+
+- name: Copy .my.cnf file with root password credentials.
+  template:
+    src: "root-my.cnf.j2"
+    dest: "{{ mysql_root_home }}/.my.cnf"
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Get list of hosts for the anonymous user.
+  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
+  register: mysql_anonymous_hosts
+  changed_when: false
+  check_mode: false
+
+- name: Remove anonymous users.
+  mysql_user:
+    name: ''
+    host: "{{ item }}"
+    state: absent
+  with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
+
+- name: Remove test database.
+  mysql_db:
+    name: test
+    state: absent

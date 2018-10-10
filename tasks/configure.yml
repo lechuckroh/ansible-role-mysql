@@ -1,0 +1,26 @@
+---
+- name: Copy my.cnf global MySQL configuration.
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: "{{ mysql_overwrite_global_mycnf }}"
+  notify: restart mysql
+
+- name: Create datadir if it does not exist
+  file:
+    path: "{{ mysql_datadir }}"
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0755
+    setype: mysqld_db_t
+
+- name: Set MySQL service autostart.
+  service:
+    name: "{{ mysql_service }}"
+    state: started
+    enabled: "{{ mysql_enabled_on_startup }}"
+  register: mysql_service_configuration
