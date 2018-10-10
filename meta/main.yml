@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: mysql
   author: Lechuck Roh
   description: Manage MariaDB
   license: MIT
