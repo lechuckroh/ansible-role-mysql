@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: mysql
   author: Lechuck Roh
-  description: Manage MariaDB
+  description: Manage MySQL
   license: MIT
   min_ansible_version: 2.4
   platforms:

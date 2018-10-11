@@ -35,7 +35,7 @@
 - name: Configure replication on the slave.
   mysql_replication:
     mode: changemaster
-    master_host: "{{ mysql_replication_master_host | default(hostvars[mysql_replication_master]['ansible_host']) }}"
+    master_host: "{{ mysql_replication_master_host or hostvars[mysql_replication_master]['ansible_host'] }}"
     master_user: "{{ mysql_replication_user.name }}"
     master_password: "{{ mysql_replication_user.password }}"
     master_log_file: "{{ master.File }}"

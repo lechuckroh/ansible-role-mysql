@@ -2,7 +2,7 @@
 - name: Copy my.cnf global MySQL configuration.
   template:
     src: my.cnf.j2
-    dest: "{{ mysql_config_file }}"
+    dest: "{{ mysql_config }}"
     owner: root
     group: root
     mode: 0644

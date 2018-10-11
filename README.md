@@ -15,8 +15,8 @@ Fixed settings:
 
 Tested against:
 * CentOS 7.4
-* Ubuntu 16.04
-* Ubuntu 18.04
+* Ubuntu 16.04 (Xenial)
+* Ubuntu 18.04 (Bionic)
 
 
 ## Requirements
@@ -36,13 +36,11 @@ No requirements
 | `mysql_expire_logs_days`               | 10                | the number of days before automatic removal of binary log files. |
 | `mysql_group_concat_max_len`           | 1024              | |
 | `mysql_innodb_buffer_pool_size`        | 256M              | |
-| `mysql_innodb_file_format`             | Barracuda         | |
 | `mysql_innodb_file_per_table`          | ON                | |
 | `mysql_innodb_flush_log_at_trx_commit` | 1                 | |
 | `mysql_innodb_log_buffer_size`         | 8M                | |
 | `mysql_innodb_log_file_size`           | 64M               | |
 | `mysql_innodb_lock_wait_timeout`       | 50                | |
-| `mysql_innodb_large_prefix`            | 1                 | |
 | `mysql_join_buffer_size`               | 256K              | |
 | `mysql_key_buffer_size`                | 256M              | |
 | `mysql_lower_case_table_names`         | 1                 | 0: case-sensitive(Linux), 1: stored in lowercase, case-insensitive(Windows), 2: stored as declared, compared in lowercase(OSX) |
@@ -54,9 +52,6 @@ No requirements
 | `mysql_mysqldump_max_allowed_packet`   | 64M               | |
 | `mysql_overwrite_global_mycnf`         | true              | `true`: global `my.cnf` should be overwritten each time this role is run. |
 | `mysql_port`                           | 3306              | port number |
-| `mysql_query_cache_limit`              | 1M                | |
-| `mysql_query_cache_size`               | 16M               | |
-| `mysql_query_cache_type`               | 0                 | |
 | `mysql_read_buffer_size`               | 1M                | |
 | `mysql_read_rnd_buffer_size`           | 4M                | |
 | `mysql_replication_master`             | ''                | replication master |
@@ -163,6 +158,7 @@ Slave playbook
     mysql_server_id: 2
     mysql_replication_role: master
     mysql_replication_master: mysql-master
+    mysql_replication_master_host: '192.168.50.12'
     mysql_replication_user:
       name: repl
       password: repl

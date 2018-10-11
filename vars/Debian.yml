@@ -1,7 +1,8 @@
 ---
-mysql_service: mysql
 mysql_packages:
   - mysql-common
   - mysql-server
   - python-mysqldb
-mysql_config_file: /etc/mysql/my.cnf
+
+mysql_service: mysql
+mysql_config: /etc/mysql/my.cnf

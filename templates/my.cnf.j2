@@ -47,9 +47,6 @@ read_buffer_size               = {{ mysql_read_buffer_size }}
 read_rnd_buffer_size           = {{ mysql_read_rnd_buffer_size }}
 myisam_sort_buffer_size        = {{ mysql_myisam_sort_buffer_size }}
 thread_cache_size              = {{ mysql_thread_cache_size }}
-query_cache_type               = {{ mysql_query_cache_type }}
-query_cache_size               = {{ mysql_query_cache_size }}
-query_cache_limit              = {{ mysql_query_cache_limit }}
 max_connections                = {{ mysql_max_connections }}
 tmp_table_size                 = {{ mysql_tmp_table_size }}
 max_heap_table_size            = {{ mysql_max_heap_table_size }}
@@ -61,8 +58,6 @@ wait_timeout                   = {{ mysql_wait_timeout }}
 lower_case_table_names         = {{ mysql_lower_case_table_names }}
 
 # InnoDB
-innodb_large_prefix            = {{ mysql_innodb_large_prefix }}
-innodb_file_format             = {{ mysql_innodb_file_format }}
 innodb_file_per_table          = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size        = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size           = {{ mysql_innodb_log_file_size }}
